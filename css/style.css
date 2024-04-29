@@ -1,0 +1,211 @@
+/*
+  Style CSS
+  data 22.04.2024
+  by Gianluca Chiaravalloti
+*/
+
+body {
+  background-image: url("https://images.unsplash.com/3/alejandroescamilla-book.jpg?q=80&w=2162&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Mobile */
+
+#navbarNav {
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.nav-link {
+  margin-right: 10px;
+}
+
+.nav-link:hover {
+  color: #969494;
+}
+
+.input-group {
+  width: 400px;
+}
+
+.form-control {
+  border: 1px solid #969494;
+}
+
+.hero {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.hero h1 span {
+  color: #762B27;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.title h1 {
+  font-size: 2.0rem;
+  font-weight: 700;
+}
+
+.card-home {
+  text-align: center;
+  border-radius: 10px;
+  color: #000;
+}
+
+.card-home img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-home:hover {
+  cursor: pointer;
+}
+
+.card-title {
+  font-size: 0.9rem;
+}
+
+.btnAdd {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-cart {
+  height: 100%;
+  border: 1px solid #969494;
+}
+
+.card-cart img {
+  border-radius: 0;
+  height: 110px;
+  margin-left: 50px;
+}
+
+.card-cart .card-title {
+  font-size: 0.8rem;
+}
+
+.totalPrice {
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: block;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+#empty {
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.nav-item i {
+  font-size: 1.5rem;
+}
+
+#cart {
+  font-size: 1.5rem;
+}
+
+.btn .badge {
+  top: 15px;
+}
+
+footer {
+  margin-top: auto;
+  background-color: #fff;
+  opacity: 0.4;
+  color: #000;
+}
+
+footer i {
+  font-size: 2.0rem;
+}
+
+
+/* End Mobile */
+
+
+/* View Tablet */
+@media (min-width: 431px) {
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .card-home {
+    width: 200px;
+    box-shadow: 2px 4px 10px 5px #969494;
+    margin-bottom: 10px;
+  }
+
+  .card-home img {
+    height: 280px;
+  }
+
+  .card-cart img {
+    border-radius: 0;
+    height: 130px;
+  }
+
+  .addBook {
+    font-size: 0.9rem;
+  }
+
+  .totalPrice {
+    font-size: 1.2rem;
+  }
+
+}
+/* End Tablet */
+
+
+/* View Desktop */
+@media (min-width: 1439px) {
+
+  .navbar-brand {
+    font-size: 2.0rem;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .card-home {
+    width: 250px;
+    box-shadow: 2px 4px 10px 5px #969494;
+    margin-bottom: 15px;
+    transition: 0.3s;
+  }
+  
+  .card-home img {
+    height: 340px;
+  }
+  
+  .card-home:hover{
+    cursor: pointer;
+    transform: scale(1.06);
+  }
+
+  .card-cart img {
+    border-radius: 0;
+    height: 140px;
+  }
+
+  .addBook {
+    font-size: 0.9rem;
+  }
+
+  .totalPrice {
+    font-size: 1.2rem;
+  }
+}
+/* End Desktop */
+
