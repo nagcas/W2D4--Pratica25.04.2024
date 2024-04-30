@@ -28,6 +28,7 @@ const searchSectionBooks = document.querySelector(".searchSectionBooks");
 // Inizializzo la variabile removeAllBooks per rimuovere tutti i libri dal carrello
 const removeAllBooks = document.getElementById("removeAllBooks");
 
+
 // Inzializzo l'array vuoto della quantità dei libri acquistati
 let quantityBooks = [];
 // Inizializzo la variabile a 0 del valore della quantità dei libri
@@ -45,46 +46,19 @@ let modalCart = document.querySelector(".modal-body");
 const totalPriceHtml = document.querySelector(".totalPrice");
 
 
-
-/**
- * Si attiva nel momento in cui si apre il document html
- */
-document.addEventListener("DOMContentLoaded", () => {
-  amount.innerText = quantityBooksBuy;
-
-  fetch(url)
-  .then((response) => {
-    // Verifico la risposta del server
-    if (!response.ok) {
-      throw new Error("Risposta networks non andata a buon fine.");
-    }
-    // Restituisce la risposta in formato json
-    return response.json();
-  })
-  .then((books) => {
-    // Stampo in console i dati ottenuti dall'API
-    viewBooks(books);
-    addCart(books);
-    searchBook();
-    resetDocument(books);  
-  })
-  .catch((error) => {
-    console.error("Errore: ", error);
-  })
-});
-
-
 /**
  * Funzione visualizza elenco dei books in formato card
  * nel document html
  */
-function viewBooks(books) {
+function viewBooks(books , inputSearch = "") {
   // Visualizza su console in tabella il contenuto dell'API
+  // console.table(books);
   let contentBooks = document.querySelector(".content-books");
     books.forEach(book => {
       let content = document.createElement("div");
-      content.className = "card p-0 card-home";
-      content.innerHTML = `
+      content.classList.add("card", "p-0", "card-home");
+      content.innerHTML = 
+        `
           <a name="${book.title}"></a>
           <div id="${book.title}">
             <img src="${book.img}" class="card-img-top" alt="${book.title}">
@@ -99,11 +73,10 @@ function viewBooks(books) {
               </button>
             </div>
           </div>
-        `;
-      contentBooks.appendChild(content);
+        `
+      contentBooks.append(content);
     });
 };
-
 
 /**
  * Funzione aggiungi libro nel carrello
@@ -112,6 +85,7 @@ function viewBooks(books) {
 function addCart(books) {
   let amount = document.getElementById("amount");
   books.forEach(book => {
+    //console.log(codice.asin);
     let codeAsin = document.getElementById(`${book.asin}`);
     codeAsin.addEventListener("click", () => {
       if (codeAsin.classList[codeAsin.classList.length - 1] === "btn-success") {
@@ -129,6 +103,7 @@ function addCart(books) {
           quantityBooks.splice(indexToRemove, 1);
         } 
         // filtra/rimuovi libro dall'array libri acquistati
+        //quantityBooks = quantityBooks.filter(book => book == book.asin);
         quantityBooksBuy -= 1;
         codeAsin.innerHTML = `<i class="bi bi-cart-plus"></i> Add to Cart`;
         codeAsin.classList.remove("btn-danger");
@@ -141,11 +116,13 @@ function addCart(books) {
   shopping.addEventListener("click", () => {
     if (quantityBooks.length > 0) {
       quantityBooks.forEach(book => {
+        // console.table(books);
         books.forEach(book_ => {
           if (book_.asin === book) {
+            // console.log("trovato");
             totalPrice += book_.price;
             let bookSection = document.createElement("div");
-            bookSection.className = "card mt-4 card-cart";
+            bookSection.classList.add("card", "mt-4", "card-cart");
             bookSection.innerHTML = 
               `
                 <div class="row g-1 d-flex align-items-center">
@@ -162,7 +139,7 @@ function addCart(books) {
                   </div>
                 </div>
               `
-            modalCart.appendChild(bookSection);
+            modalCart.append(bookSection);
           }
           totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
         })
@@ -187,14 +164,18 @@ function addCart(books) {
     let removeBook = document.querySelectorAll(".remove-book");
     removeBook.forEach(valore => {
       let rimuoviBook = document.getElementById(`${valore.id}`);
+      // console.log(rimuoviBook);
       rimuoviBook.addEventListener("click", () => {
+        console.log("vuoi rimuovere il libro");
         if (valore.id === rimuoviBook.id) {
+          console.log("hai eliminato il libro");
         }
       })
     })
 
     // Rimuove tutti i libri dal carrello
     removeAllBooks.addEventListener("click", () => {
+      console.log("Rimuovi tutti i libri dal carrello");
       modalCart.innerHTML = "";
       totalPriceHtml.innerHTML = "";
       let content = document.querySelectorAll(".card-cart");
@@ -205,24 +186,29 @@ function addCart(books) {
   })
 };
 
-
 /**
  * Funzione di ricerca libri
  */
-function searchBook() {
+function searchBook(books) {
   inputSearchBtn.addEventListener("click", () => {
+    // console.log("pulsante di ricerca");
+    // console.log(inputSearch.value);
     if (inputSearch.value.length > 3) {
       // console.log("ok");
+      //viewBooks(books, inputSearch.value);
       let titoli = document.querySelectorAll(".card-title");
       titoli.forEach(titolo => {
+        // console.log(titolo.innerText.toLowerCase());
         if (titolo.innerText.toLowerCase().includes(inputSearch.value.toLowerCase())) {
           inputSearch.classList.remove("border-danger");
+          // console.log("trovato");
           document.location.href = "#" + titolo.innerText;
-          document.getElementById(`${titolo.innerText}`).style.color = "red";
-          
+          document.getElementById(`${titolo.innerText}`).style.backgroundColor = "#AE8E71";      
         }
       })
     } else {
+      // console.log(invalid);
+      // console.log("ko");
       document.getElementById("inputSearch").value = "";
       inputSearch.classList.add("border-danger");
       document.getElementsByName("search")[0].placeholder = 'enter text longer than 3 characters';
@@ -230,15 +216,59 @@ function searchBook() {
   })
 };
 
+
 /**
-  * Funzione reset card search
+  * Funzione reset card
 */
 function resetDocument(books) {
   inputResetBtn.addEventListener("click", () => {
+    // console.log("pulisci ricerca");
     let titoli = document.querySelectorAll(".card-title");
     titoli.forEach(titolo => {
-      document.getElementById(`${titolo.innerText}`).style.color = "#000";
+      document.getElementById(`${titolo.innerText}`).style.backgroundColor = "transparent"; 
     })
     document.getElementById("inputSearch").value = "";
   });
 };
+
+/**
+  * Funzione clear document html
+*/
+function clearDocument(books) {
+    // console.log("pulisci ricerca");
+    viewBooks(books);
+    // Pulisce il document html dalla card presenti
+    let bookSection = document.querySelectorAll(".card");
+    bookSection.forEach(card => {
+      card.remove();
+    });
+    document.getElementById("titleSearch").innerText = "";
+};
+
+/**
+ * Si attiva nel momento in cui si apre il document html
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  amount.innerText = quantityBooksBuy;
+
+  fetch(url)
+  .then((response) => {
+    // Verifico la risposta del server
+    if (!response.ok) {
+      throw new Error("Risposta networks non andata a buon fine.");
+    }
+    // Restituisce la risposta in formato json
+    return response.json();
+  })
+  .then((books) => {
+    // Stampo in console i dati ottenuti dall'API
+    // console.log(data);
+    viewBooks(books);
+    addCart(books);
+    searchBook(books);
+    resetDocument(books);  
+  })
+  .catch((error) => {
+    console.error("Errore: ", error);
+  })
+});

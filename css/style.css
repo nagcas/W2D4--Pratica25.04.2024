@@ -12,7 +12,6 @@ body {
 }
 
 /* Mobile */
-
 #navbarNav {
   margin-right: 10px;
   font-size: 1.1rem;
@@ -66,6 +65,7 @@ body {
 }
 
 .card-title {
+  height: auto;
   font-size: 0.9rem;
 }
 
@@ -76,7 +76,7 @@ body {
 }
 
 .card-cart {
-  height: 100%;
+  /* height: 100%; */
   border: 1px solid #969494;
 }
 
@@ -128,8 +128,6 @@ footer {
 footer i {
   font-size: 2.0rem;
 }
-
-
 /* End Mobile */
 
 
@@ -181,7 +179,7 @@ footer i {
   .card-home {
     width: 250px;
     box-shadow: 2px 4px 10px 5px #969494;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     transition: 0.3s;
   }
   
