@@ -37,6 +37,7 @@ let quantityBooks = [];
 let quantityBooksBuy = 0;
 // Inizializzo a 0 il prezzo totale del carrello
 let totalPrice = 0;
+//let totalPriceSum = 0;
 
 
 /**
@@ -52,7 +53,8 @@ const shopping = document.getElementById("shopping");
 let modalCart = document.querySelector(".modal-body");
 // Inizializzo la variabile removeAllBooks per rimuovere tutti i libri dal carrello
 const removeAllBooks = document.getElementById("removeAllBooks");
-
+// Inizializzo la variabile buy del button buy "paga"
+const buy = document.getElementById("buy");
 // Inizializzo la variabile totalPriceHtml per variare il contenuto del prezzo totale
 const totalPriceHtml = document.querySelector(".totalPrice");
 
@@ -131,6 +133,7 @@ function addCart(books) {
     codeAsin.addEventListener("click", () => {
       if (codeAsin.classList[codeAsin.classList.length - 1] === "btn-success") {
         quantityBooksBuy += 1;
+        totalPrice += book.price;
         // Aggiungo al catalogo i miei acquisti
         quantityBooks.push(book.asin);
         codeAsin.innerHTML = `<i class="bi bi-cart-dash"></i> Remove to Cart`;
@@ -146,6 +149,7 @@ function addCart(books) {
         } 
         // filtra/rimuovi libro dall'array libri acquistati
         quantityBooksBuy -= 1;
+        totalPrice -= book.price;
         codeAsin.innerHTML = `<i class="bi bi-cart-plus"></i> Add to Cart`;
         codeAsin.classList.remove("btn-danger");
         codeAsin.classList.add("btn-success");
@@ -161,19 +165,20 @@ function addCart(books) {
         books.forEach(book_ => {
           let bookSection = document.createElement("div");
             if (book_.asin === book) {
-              totalPrice += book_.price;
               bookSection.className = "card mt-4 card-cart";
               bookSection.innerHTML = `
-                  <div class="row g-1 d-flex align-items-center">
-                    <div class="col-4 col-md-4">
-                      <img src="${book_.img}" class="img-fluid" alt="${book_.title}">
-                    </div>
-                    <div class="col-8 col-md-8">
-                      <div class="card-body">
-                        <h5 class="card-title">${book_.title}</h5>
-                        <p class="card-text fw-bold">${book_.asin}</p>
-                        <p class="card-text fw-bold">${book_.price} €</p>
-                        <button class="btn btn-danger btn-sm remove-book" id="${book_.title}"><i class="bi bi-cart-dash"></i> Remove</button>
+                  <div id="${book_.title}+${book_.asin}">
+                    <div class="row g-1 d-flex align-items-center">
+                      <div class="col-4 col-md-4">
+                        <img src="${book_.img}" class="img-fluid" alt="${book_.title}">
+                      </div>
+                      <div class="col-8 col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">${book_.title}</h5>
+                          <p class="card-text fw-bold">${book_.asin}</p>
+                          <p class="card-text fw-bold">${book_.price} €</p>
+                          <button class="btn btn-danger btn-sm remove" id="${book_.asin}"><i class="bi bi-cart-dash"></i> Remove</button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -187,7 +192,6 @@ function addCart(books) {
       // Visualizza il testo nel modal di articoli non presenti.
       modalCart.innerHTML = `<p id="empty">Empty cart...</p>`;
     }
-    totalPrice = 0;
     
 
     // Al click del button continue shopping del modal viene eseguito un reset del contenuto
@@ -210,15 +214,40 @@ function addCart(books) {
     });
 
     // Inzizializzo la variabile remove to cart per rimuovere il singolo libro dal carrello
-    let removeBook = document.querySelectorAll(".remove-book");
-    removeBook.forEach(valore => {
-      let rimuoviBook = document.getElementById(`${valore.id}`);
-      rimuoviBook.addEventListener("click", () => {
-        if (valore.id === rimuoviBook.id) {
-        }
-      });
-    });
 
+    let remove = document.querySelectorAll(".remove");
+    // Rimuove singolo libro dal carrello degli acquisti e aggiorna il contenuto
+    console.log("Array prima: ", quantityBooks)
+    remove.forEach((elimina) => {
+      elimina.addEventListener("click", () => {
+        books.forEach(libro => {
+          if (libro.asin === elimina.id) {
+            document.getElementById(`${libro.title}+${libro.asin}`).remove();
+            // Trova l'indice dell'elemento da rimuovere
+            let indexToRemove = quantityBooks.indexOf(elimina.id);
+            if (indexToRemove !== -1) {
+              // Rimuovi l'elemento dall'array
+              quantityBooks.splice(indexToRemove, 1);
+              console.log("Array dopo: ", quantityBooks)
+              
+            }
+            quantityBooksBuy -= 1;
+            totalPrice -= libro.price;
+            if (totalPrice >= 0) {
+              totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
+            } else {
+              totalPriceHtml.remove();
+              modalCart.innerHTML = `<p id="empty">Empty cart...</p>`;
+            }
+            document.getElementById(`${libro.asin}`).innerHTML = `<i class="bi bi-cart-plus"></i> Add to Cart`;
+            document.getElementById(`${libro.asin}`).classList.remove("btn-danger");
+            document.getElementById(`${libro.asin}`).classList.add("btn-success");
+          }
+        })
+        amount.innerText = quantityBooksBuy;
+      })
+    });
+    
     // Rimuove tutti i libri dal carrello
     removeAllBooks.addEventListener("click", () => {
       modalCart.innerHTML = "";

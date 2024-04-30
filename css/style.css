@@ -76,8 +76,7 @@ body {
 }
 
 .card-cart {
-  /* height: 100%; */
-  border: 1px solid #969494;
+  border: 0;
 }
 
 .card-cart img {
