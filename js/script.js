@@ -125,7 +125,6 @@ function viewBooks(books) {
  * ----------------------------------------------------------------
  */
 function addCart(books) {
-
   let amount = document.getElementById("amount");
   books.forEach(book => {
     let codeAsin = document.getElementById(`${book.asin}`);
@@ -199,7 +198,8 @@ function addCart(books) {
       content.forEach(card => {
         card.remove();
       });
-      amount.innerHTML = 0;
+      amount.innerText = 0;
+      quantityBooksBuy = 0;
       totalPrice = 0;
       quantityBooks = [];
       books.forEach(book => {
