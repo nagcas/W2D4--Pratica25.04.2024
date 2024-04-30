@@ -121,6 +121,7 @@ function addCart(books) {
         codeAsin.innerHTML = `<i class="bi bi-cart-dash"></i> Remove to Cart`;
         codeAsin.classList.remove("btn-success");
         codeAsin.classList.add("btn-danger");
+        this.document.getElementById(`${book.title}`).style.color = "#000";
       } else {
         // Trova l'indice dell'elemento da rimuovere
         let indexToRemove = quantityBooks.indexOf(book.asin);
@@ -225,7 +226,7 @@ function searchBook() {
         if (titolo.innerText.toLowerCase().includes(inputSearch.value.toLowerCase())) {
           inputSearch.classList.remove("border-danger");
           document.location.href = "#" + titolo.innerText;
-          document.getElementById(`${titolo.innerText}`).style.color = "red";
+          document.getElementById(`${titolo.innerText}`).style.color = "#c72121";
           
         }
       })
