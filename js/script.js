@@ -38,7 +38,7 @@ let totalPrice = 0;
 // Inizializzo la variabile cart al puntatore del carrello
 const shopping = document.getElementById("shopping");
 // Izializzo la variabile closeModel al button close del modal
-const closeModal = document.getElementById("close");
+const continueShopping = document.getElementById("continueShopping");
 // Inizializzo la variabile modalCart per inserire il contenuto dei libri acquistati
 let modalCart = document.querySelector(".modal-body");
 // Inizializzo la variabile totalPriceHtml per variare il contenuto del prezzo totale
@@ -146,8 +146,7 @@ function addCart(books) {
             totalPrice += book_.price;
             let bookSection = document.createElement("div");
             bookSection.className = "card mt-4 card-cart";
-            bookSection.innerHTML = 
-              `
+            bookSection.innerHTML = `
                 <div class="row g-1 d-flex align-items-center">
                   <div class="col-4 col-md-4">
                     <img src="${book_.img}" class="img-fluid" alt="${book_.title}">
@@ -173,15 +172,23 @@ function addCart(books) {
     }
     totalPrice = 0;
 
-    // Al click del button close del modal viene eseguito un reset del contenuto
-    closeModal.addEventListener("click", () => {
+    // Al click del button continue shopping del modal viene eseguito un reset del contenuto
+    removeAllBooks.addEventListener("click", () => {
       modalCart.innerHTML = "";
       totalPriceHtml.innerHTML = "";
       let content = document.querySelectorAll(".card-cart");
       content.forEach(card => {
         card.remove();
       });
-    })
+      amount.innerHTML = 0;
+      totalPrice = 0;
+      quantityBooks = [];
+      books.forEach(book => {
+        document.getElementById(`${book.asin}`).innerHTML = `<i class="bi bi-cart-plus"></i> Add to Cart`;
+        document.getElementById(`${book.asin}`).classList.remove("btn-danger");
+        document.getElementById(`${book.asin}`).classList.add("btn-success");
+      });
+    });
 
     // Inzizializzo la variabile remove to cart per rimuovere il singolo libro dal carrello
     let removeBook = document.querySelectorAll(".remove-book");
@@ -190,8 +197,8 @@ function addCart(books) {
       rimuoviBook.addEventListener("click", () => {
         if (valore.id === rimuoviBook.id) {
         }
-      })
-    })
+      });
+    });
 
     // Rimuove tutti i libri dal carrello
     removeAllBooks.addEventListener("click", () => {
@@ -229,6 +236,7 @@ function searchBook() {
     }
   })
 };
+
 
 /**
   * Funzione reset card search
