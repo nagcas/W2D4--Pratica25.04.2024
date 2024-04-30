@@ -8,8 +8,11 @@
 // console.log("It's working...");
 
 /**
- * Inizializzo le costanti globali
+ * Inizializzo le costanti e variabili globali
+ * -------------------------------------------
  */
+
+// COSTANTI
 
 // Inizializzo la variabile url dell'api della lista dei libri presenti nel server
 const url = "https://striveschool-api.herokuapp.com/books";
@@ -25,8 +28,8 @@ const amount = document.getElementById("amount");
 const invalid = document.getElementById("invalid-feedback");
 // Inzizializzo
 const searchSectionBooks = document.querySelector(".searchSectionBooks");
-// Inizializzo la variabile removeAllBooks per rimuovere tutti i libri dal carrello
-const removeAllBooks = document.getElementById("removeAllBooks");
+
+// ARIABILI GLOBALI
 
 // Inzializzo l'array vuoto della quantità dei libri acquistati
 let quantityBooks = [];
@@ -35,12 +38,21 @@ let quantityBooksBuy = 0;
 // Inizializzo a 0 il prezzo totale del carrello
 let totalPrice = 0;
 
+
+/**
+ * COSTANTI E VARIABILI DELLA FUNZIONE MODAL
+ * -----------------------------------------
+ */
+
 // Inizializzo la variabile cart al puntatore del carrello
 const shopping = document.getElementById("shopping");
 // Izializzo la variabile closeModel al button close del modal
-const continueShopping = document.getElementById("continueShopping");
+// const continueShopping = document.getElementById("continueShopping");
 // Inizializzo la variabile modalCart per inserire il contenuto dei libri acquistati
 let modalCart = document.querySelector(".modal-body");
+// Inizializzo la variabile removeAllBooks per rimuovere tutti i libri dal carrello
+const removeAllBooks = document.getElementById("removeAllBooks");
+
 // Inizializzo la variabile totalPriceHtml per variare il contenuto del prezzo totale
 const totalPriceHtml = document.querySelector(".totalPrice");
 
@@ -48,8 +60,10 @@ const totalPriceHtml = document.querySelector(".totalPrice");
 
 /**
  * Si attiva nel momento in cui si apre il document html
+ * -----------------------------------------------------
  */
 document.addEventListener("DOMContentLoaded", () => {
+  
   amount.innerText = quantityBooksBuy;
 
   fetch(url)
@@ -75,10 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /**
- * Funzione visualizza elenco dei books in formato card
- * nel document html
+ * Funzione visualizza elenco dei books in formato card nel document html
+ * ----------------------------------------------------------------------
  */
 function viewBooks(books) {
+
   // Visualizza su console in tabella il contenuto dell'API
   let contentBooks = document.querySelector(".content-books");
     books.forEach(book => {
@@ -106,10 +121,11 @@ function viewBooks(books) {
 
 
 /**
- * Funzione aggiungi libro nel carrello
- * in funzione del codice asin
+ * Funzione aggiungi libro nel carrello in funzione del codice asin
+ * ----------------------------------------------------------------
  */
 function addCart(books) {
+
   let amount = document.getElementById("amount");
   books.forEach(book => {
     let codeAsin = document.getElementById(`${book.asin}`);
@@ -137,33 +153,34 @@ function addCart(books) {
       }
       amount.innerHTML = quantityBooksBuy;
     })
-  })
+  });
 
   shopping.addEventListener("click", () => {
+    modalCart.innerHTML = "";
     if (quantityBooks.length > 0) {
       quantityBooks.forEach(book => {
         books.forEach(book_ => {
-          if (book_.asin === book) {
-            totalPrice += book_.price;
-            let bookSection = document.createElement("div");
-            bookSection.className = "card mt-4 card-cart";
-            bookSection.innerHTML = `
-                <div class="row g-1 d-flex align-items-center">
-                  <div class="col-4 col-md-4">
-                    <img src="${book_.img}" class="img-fluid" alt="${book_.title}">
-                  </div>
-                  <div class="col-8 col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">${book_.title}</h5>
-                      <p class="card-text fw-bold">${book_.asin}</p>
-                      <p class="card-text fw-bold">${book_.price} €</p>
-                      <button class="btn btn-danger btn-sm remove-book" id="${book_.title}"><i class="bi bi-cart-dash"></i> Remove</button>
+          let bookSection = document.createElement("div");
+            if (book_.asin === book) {
+              totalPrice += book_.price;
+              bookSection.className = "card mt-4 card-cart";
+              bookSection.innerHTML = `
+                  <div class="row g-1 d-flex align-items-center">
+                    <div class="col-4 col-md-4">
+                      <img src="${book_.img}" class="img-fluid" alt="${book_.title}">
+                    </div>
+                    <div class="col-8 col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">${book_.title}</h5>
+                        <p class="card-text fw-bold">${book_.asin}</p>
+                        <p class="card-text fw-bold">${book_.price} €</p>
+                        <button class="btn btn-danger btn-sm remove-book" id="${book_.title}"><i class="bi bi-cart-dash"></i> Remove</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              `
-            modalCart.appendChild(bookSection);
-          }
+                `
+              modalCart.append(bookSection);
+            }
           totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
         })
       })
@@ -172,6 +189,7 @@ function addCart(books) {
       modalCart.innerHTML = `<p id="empty">Empty cart...</p>`;
     }
     totalPrice = 0;
+    
 
     // Al click del button continue shopping del modal viene eseguito un reset del contenuto
     removeAllBooks.addEventListener("click", () => {
@@ -216,8 +234,10 @@ function addCart(books) {
 
 /**
  * Funzione di ricerca libri
+ * -------------------------
  */
 function searchBook() {
+
   inputSearchBtn.addEventListener("click", () => {
     if (inputSearch.value.length > 3) {
       // console.log("ok");
@@ -241,8 +261,10 @@ function searchBook() {
 
 /**
   * Funzione reset card search
+  * --------------------------
 */
 function resetDocument(books) {
+
   inputResetBtn.addEventListener("click", () => {
     let titoli = document.querySelectorAll(".card-title");
     titoli.forEach(titolo => {
