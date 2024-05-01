@@ -143,6 +143,15 @@ footer {
 footer i {
   font-size: 2.0rem;
 }
+
+.book {
+  height: 50vh;
+  margin-top: 162px;
+}
+
+#book-detail img {
+  width: 350px;
+}
 /* End Mobile */
 
 
@@ -219,6 +228,8 @@ footer i {
   .totalPrice {
     font-size: 1.2rem;
   }
+
+
 }
 /* End Desktop */
 

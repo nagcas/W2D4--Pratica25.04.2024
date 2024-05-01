@@ -16,7 +16,7 @@
 
 // Inizializzo la variabile url dell'api della lista dei libri presenti nel server
 const url = "https://striveschool-api.herokuapp.com/books";
-// Inizializzo la variabile del button search 
+// Inizializzo la variabile del button search
 const inputSearchBtn = document.getElementById("inputSearchBtn");
 // Inzizializzo la variabile della casella input di ricerca
 const inputSearch = document.getElementById("inputSearch");
@@ -98,31 +98,30 @@ function viewBooks(books) {
 
   // Visualizza su console in tabella il contenuto dell'API
   let contentBooks = document.querySelector(".content-books");
-    books.forEach(book => {
-      let content = document.createElement("div");
-      content.className = "card p-0 card-home";
-      content.innerHTML = `
-          <a name="${book.title}"></a>
-          <div id="${book.title}">
-            <img src="${book.img}" class="card-img-top" alt="${book.title}">
-            <div class="card-body">
-              <h5 class="card-title">${book.title}</h5>
-              <p class="card-text fw-bold fs-5">${book.price} €</p>
-              <p class="card-text">category: ${book.category}</p>
-              <p class="card-text mb-5">ISBN: ${book.asin}</p>
-              
-              <button class="addBook btn mb-2 w-100 btn-success" id="${book.asin}">
-                <i class="bi bi-cart-plus"></i> 
-                Add to Cart
-              </button>
-              <button class="detailBook btn mb-2 w-100 btn-primary">
-                Detail Book
-              </button>
-            </div>
+  books.forEach(book => {
+    let content = document.createElement("div");
+    content.className = "card p-0 card-home";
+    content.innerHTML = `
+        <a name="${book.title}"></a>
+        <div id="${book.title}">
+          <img src="${book.img}" class="card-img-top" alt="${book.title}">
+          <div class="card-body">
+            <h5 class="card-title">${book.title}</h5>
+            <p class="card-text fw-bold fs-5">${book.price} €</p>
+            <p class="card-text">category: ${book.category}</p>
+            <p class="card-text mb-5">ISBN: ${book.asin}</p>
+            <button class="addBook btn mb-2 w-100 btn-success" id="${book.asin}">
+              <i class="bi bi-cart-plus"></i> 
+              Add to Cart
+            </button>
+            <a class="detailBook btn mb-2 w-100 btn-primary" href="./detail.html?idBook=${book.asin}&titleBook=${book.title}">
+              Detail Book
+            </a>
           </div>
-        `
-      contentBooks.appendChild(content);
-    })
+        </div>
+      `
+    contentBooks.appendChild(content);
+  })
 };
 
 
