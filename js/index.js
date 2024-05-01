@@ -28,6 +28,8 @@ const amount = document.getElementById("amount");
 const invalid = document.getElementById("invalid-feedback");
 // Inzizializzo
 const searchSectionBooks = document.querySelector(".searchSectionBooks");
+// Inizializzo la costante per richiamare lo spinner
+const loader = document.getElementById("loader");
 
 // ARIABILI GLOBALI
 
@@ -95,7 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
  * ----------------------------------------------------------------------
  */
 function viewBooks(books) {
-
+  // Visualizza lo spinner durante il caricamento
+  loader.classList.remove("hidden");
   // Visualizza su console in tabella il contenuto dell'API
   let contentBooks = document.querySelector(".content-books");
   books.forEach(book => {
@@ -122,6 +125,8 @@ function viewBooks(books) {
       `
     contentBooks.appendChild(content);
   })
+  // Aggiungo "hidden" all spinner
+  loader.classList.add("hidden");
 };
 
 

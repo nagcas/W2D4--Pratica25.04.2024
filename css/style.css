@@ -152,6 +152,11 @@ footer i {
 #book-detail img {
   width: 250px;
 }
+
+.hidden {
+  display: none;
+}
+
 /* End Mobile */
 
 
