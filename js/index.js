@@ -100,7 +100,7 @@ function viewBooks(books) {
   let contentBooks = document.querySelector(".content-books");
   books.forEach(book => {
     let content = document.createElement("div");
-    content.className = "card p-0 card-home";
+    content.className = "card p-0 g-4 card-home";
     content.innerHTML = `
         <a name="${book.title}"></a>
         <div id="${book.title}">

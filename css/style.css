@@ -145,12 +145,12 @@ footer i {
 }
 
 .book {
-  height: 50vh;
-  margin-top: 162px;
+  margin-top: 100px;
+  /* margin-bottom: 100px; */
 }
 
 #book-detail img {
-  width: 350px;
+  width: 250px;
 }
 /* End Mobile */
 
@@ -228,7 +228,10 @@ footer i {
   .totalPrice {
     font-size: 1.2rem;
   }
-
+  
+  #book-detail img {
+    width: 350px;
+  }
 
 }
 /* End Desktop */

@@ -37,6 +37,7 @@
               <a class="nav-link" href="#"><i class="bi bi-file-person"></i> About</a>
             </li>
           </ul>
+          <!-- Pulsante carrello con visualizzazione del numero dei libri selezionati con badge -->
           <button type="button" class="btn btn-ternary position-relative" data-bs-toggle="modal" data-bs-target="#modalCart" id="shopping">
             <i class="bi bi-cart2" id="cart"></i>
             <span class="position-absolute start-80 translate-middle badge rounded-pill bg-danger z-1" id="amount"></span>
@@ -55,6 +56,7 @@
           <h1>Best Selling <span>scifi</span> BOOKS</h1>
         </div>
       </div>
+      <!-- Funzione ricerca un libro -->
       <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center justify-content-lg-end">
         <div id="errore"></div>
           <div class="input-group p-2">
@@ -73,19 +75,23 @@
 
   <!-- Section Books -->
   <section class="container books">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 justify-content-around content-books"></div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 justify-content-around content-books">
+      <!-- Visualizza il contenuto di tutte le card chiamate dall'API -->
+    </div>
   </section>
   <!-- End Section Books -->
 
   <!-- Section Modal Cart -->
   <div class="modal fade" id="modalCart" tabindex="-1" aria-labelledby="modalCartLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
+      <!-- Visualizza il carrello dei libri selezionati per l'acquisto -->
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="madalCartLabel">Shopping Cart</h1>
         </div>
         <div class="modal-body"></div>
         <p class="totalPrice"></p>
+        <!-- Gestione dei pulsanti  -->
         <div class="modal-footer mt-2 d-flex justify-content-end align-items-center">
           <button type="button" class="btn btn-secondary btn-sm btn-md" data-bs-dismiss="modal"><i class="bi bi-bag"></i> Continue Shopping</button>
           <button type="button" class="btn btn-danger btn-sm btn-md d-none" data-bs-dismiss="modal" id="removeAllBooks"><i class="bi bi-cart-dash"></i> Remove all Books</button>

@@ -39,14 +39,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function detailBook(bookDetail) {
       let contentBook = document.getElementById("book-detail");
       contentBook.innerHTML = `
-          <div class="d-flex" id="${bookDetail.title}">
+          <div class="d-md-flex" id="${bookDetail.title}">
             <img src="${bookDetail.img}" class="card-img-top p-4" alt="${bookDetail.title}">
             <div class="card-body p-4">
               <h5 class="card-title">${bookDetail.title}</h5>
               <p class="card-text fw-bold fs-5">${bookDetail.price} €</p>
               <p class="card-text">category: ${bookDetail.category}</p>
               <p class="card-text mb-5">ISBN: ${bookDetail.asin}</p>
-              <a class="btn mb-2 w-25 btn-success" href="./index.html">
+              <a class="btn mb-2 w-lg-25 btn-success" href="./index.html">
                 Back to Home
               </a>
             </div>
