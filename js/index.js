@@ -26,7 +26,7 @@ const inputResetBtn = document.getElementById("inputResetBtn");
 const amount = document.getElementById("amount");
 // Inizializzo la variabile invalid per verificare l'inserimento corretto nella ricerca
 const invalid = document.getElementById("invalid-feedback");
-// Inzizializzo
+// Inizializzo la variabile searchSectionBooks per selezionare il puntatore della ricerca
 const searchSectionBooks = document.querySelector(".searchSectionBooks");
 // Inizializzo la costante per richiamare lo spinner
 const loader = document.getElementById("loader");
@@ -39,7 +39,7 @@ let quantityBooks = [];
 let quantityBooksBuy = 0;
 // Inizializzo a 0 il prezzo totale del carrello
 let totalPrice = 0;
-//let totalPriceSum = 0;
+
 
 
 /**
@@ -47,10 +47,8 @@ let totalPrice = 0;
  * -----------------------------------------
  */
 
-// Inizializzo la variabile cart al puntatore del carrello
+// Inizializzo la variabile shopping al puntatore del carrello
 const shopping = document.getElementById("shopping");
-// Izializzo la variabile closeModel al button close del modal
-// const continueShopping = document.getElementById("continueShopping");
 // Inizializzo la variabile modalCart per inserire il contenuto dei libri acquistati
 let modalCart = document.querySelector(".modal-body");
 // Inizializzo la variabile removeAllBooks per rimuovere tutti i libri dal carrello
@@ -67,9 +65,10 @@ const totalPriceHtml = document.querySelector(".totalPrice");
  * -----------------------------------------------------
  */
 document.addEventListener("DOMContentLoaded", () => {
-  
+  // Inserisco nel document il valore della variabile badge del carrello
   amount.innerText = quantityBooksBuy;
 
+  // Eseguo la chiamata fetch dell'url API
   fetch(url)
   .then((response) => {
     // Verifico la risposta del server
@@ -80,10 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return response.json();
   })
   .then((books) => {
-    // Stampo in console i dati ottenuti dall'API
+    // Richiamo la funzione visualizza tutti i libri nel document html
     viewBooks(books);
+    // Richiamo la funzione per aggiungere i libri al carrello
     addCart(books);
+    // Richiamo la funzione di ricerca di un libro in funzione del titolo
     searchBook();
+    // Richiamo la funzione per resettare la ricerca 
     resetDocument();  
   })
   .catch((error) => {
@@ -99,11 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
 function viewBooks(books) {
   // Visualizza lo spinner durante il caricamento
   loader.classList.remove("hidden");
-  // Visualizza su console in tabella il contenuto dell'API
+  // Inizializzo la variabile per inserire il contenuto dei libri
   let contentBooks = document.querySelector(".content-books");
+  // Eseguo un ciclo su tutto il contenuto del mio array di oggetti
   books.forEach(book => {
+    // Inizializzo un div con classe card
     let content = document.createElement("div");
     content.className = "card p-0 g-4 card-home";
+    // Inserisco il contenuto del libro in una card
     content.innerHTML = `
         <a name="${book.title}"></a>
         <div id="${book.title}">
@@ -123,9 +128,10 @@ function viewBooks(books) {
           </div>
         </div>
       `
+    // Aggiungo il contenuto della card del libro creata nel document html
     contentBooks.appendChild(content);
   })
-  // Aggiungo "hidden" all spinner
+  // Aggiungo "hidden" allo spinner
   loader.classList.add("hidden");
 };
 
@@ -135,19 +141,26 @@ function viewBooks(books) {
  * ----------------------------------------------------------------
  */
 function addCart(books) {
-  let amount = document.getElementById("amount");
+  // Eseguo un ciclo su tutto il contenuto dell'oggetto
   books.forEach(book => {
+    // Inizializzo la variabile con il codice asin del singolo lobro
     let codeAsin = document.getElementById(`${book.asin}`);
+    // Se si clicca sul pulsante aggiungi il libro viene aggiunto al carrello
     codeAsin.addEventListener("click", () => {
+      // Se si verifica la condizione in cui il button è verde
       if (codeAsin.classList[codeAsin.classList.length - 1] === "btn-success") {
+        // Aggiungo una quantità +1 al conteggio dei libri acquistati
         quantityBooksBuy += 1;
+        // Aggiungo al totale del prezzo la somma del prezzo del singolo libro acquistato
         totalPrice += book.price;
-        // Aggiungo al catalogo i miei acquisti
+        // Aggiungo al catalogo i miei acquisti il codice del libro acquistato
         quantityBooks.push(book.asin);
+        // Modifico il testo del pulsante "aggiungi al carrello" con "rimuovi dal carrello"
         codeAsin.innerHTML = `<i class="bi bi-cart-dash"></i> Remove to Cart`;
+        // Rimuovo al button il colore verde
         codeAsin.classList.remove("btn-success");
+        // Aggiungo al button il colore rosso
         codeAsin.classList.add("btn-danger");
-        this.document.getElementById(`${book.title}`).style.color = "#000";
       } else {
         // Trova l'indice dell'elemento da rimuovere
         let indexToRemove = quantityBooks.indexOf(book.asin);
@@ -155,45 +168,59 @@ function addCart(books) {
           // Rimuovi l'elemento dall'array
           quantityBooks.splice(indexToRemove, 1);
         } 
-        // filtra/rimuovi libro dall'array libri acquistati
+        // Rimuovi libro dall'array libri acquistati
         quantityBooksBuy -= 1;
+        // Riduce dal prezzo totale il prezzo del singolo libro rimosso
         totalPrice -= book.price;
+        // Modifico il testo del pulsante "rimuovi dal carrello" con "aggiungi al carrello" 
         codeAsin.innerHTML = `<i class="bi bi-cart-plus"></i> Add to Cart`;
+        // Rimuovo al button il colore rosso
         codeAsin.classList.remove("btn-danger");
+        // Aggiungo al button il colore verde
         codeAsin.classList.add("btn-success");
       }
+      // Aggiorno il contenuto al badge dei libri acquistati
       amount.innerHTML = quantityBooksBuy;
     })
   });
 
+  // Visualizzo nel modal il contenuto del mio carrello degli acquisti al click dell'icona cart nel menù
   shopping.addEventListener("click", () => {
+    // Eseguo una pulizia del suo contenuto
     modalCart.innerHTML = "";
+    // Verifico se la quantità dei libri acquistati è maggiore di 0
     if (quantityBooks.length > 0) {
+      // Eseguo un ciclo sul contenuto dell'arrey che contiene i codici dei libri inseriti con l'acquisto
       quantityBooks.forEach(book => {
+        // eseguo un ciclo su tutti i libri dell'oggetto 
         books.forEach(book_ => {
+          // Creo il contenuto da visualizzare all'interno del modal in modo da visualizzare i libri acquistati
           let bookSection = document.createElement("div");
-            if (book_.asin === book) {
-              bookSection.className = "card mt-4 card-cart";
-              bookSection.innerHTML = `
-                  <div class="border-line" id="${book_.title}+${book_.asin}">
-                    <div class="row g-1 d-flex align-items-center">
-                      <div class="col-4 col-md-4">
-                        <img src="${book_.img}" class="img-fluid" alt="${book_.title}">
-                      </div>
-                      <div class="col-8 col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title card-shopping">${book_.title}</h5>
-                          <p class="card-text fw-bold">ISBN: ${book_.asin}</p>
-                          <p class="card-text fw-bold">${book_.price} €</p>
-                          <button class="btn btn-danger btn-sm remove" id="${book_.asin}"><i class="bi bi-cart-dash"></i> Remove</button>
-                        </div>
+          if (book_.asin === book) {
+            bookSection.className = "card mt-4 card-cart";
+            bookSection.innerHTML = `
+                <div class="border-line" id="${book_.title}+${book_.asin}">
+                  <div class="row g-1 d-flex align-items-center">
+                    <div class="col-4 col-md-4">
+                      <img src="${book_.img}" class="img-fluid" alt="${book_.title}">
+                    </div>
+                    <div class="col-8 col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title card-shopping">${book_.title}</h5>
+                        <p class="card-text fw-bold">ISBN: ${book_.asin}</p>
+                        <p class="card-text fw-bold">${book_.price} €</p>
+                        <button class="btn btn-danger btn-sm remove" id="${book_.asin}"><i class="bi bi-cart-dash"></i> Remove</button>
                       </div>
                     </div>
                   </div>
-                `
-              modalCart.append(bookSection);
-            }
+                </div>
+              `
+              // Aggiungo il contenuto della card del libro creata nel modal
+            modalCart.append(bookSection);
+          }
+          // Inserisco il valore del prezzo totale da visualizzare nel modal del carrello
           totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
+          // verifico se il prezzo totale è maggiore di 0 visualizzo nel modal il pulsante elimina tutti i libri e il pulsante acquista
           if (totalPrice > 0) {
             removeAllBooks.classList.remove("d-none");
             removeAllBooks.classList.add("d-block");
@@ -207,14 +234,14 @@ function addCart(books) {
       totalPrice = 0;
       modalCart.innerHTML = `<p id="empty">Empty cart...</p>`;
       totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
+      // Se il carrello non contiene libri selezionati per essere acquistati i pulsanti di elimina tutti i libri e di acquista non vengono visualizzati
       removeAllBooks.classList.remove("d-block");
       removeAllBooks.classList.add("d-none");
       buy.classList.remove("d-block");
       buy.classList.add("d-none");
     }
     
-
-    // Al click del button continue shopping del modal viene eseguito un reset del contenuto
+    // Al click del button "rimuovi tutti i libri" dal modal viene eseguito un reset del contenuto
     removeAllBooks.addEventListener("click", () => {
       modalCart.innerHTML = "";
       totalPriceHtml.innerHTML = "";
@@ -222,6 +249,7 @@ function addCart(books) {
       content.forEach(card => {
         card.remove();
       })
+      // Vengono inizializzate a 0 tutte le variabili principali quando vengono rimossi tutti i libri
       amount.innerText = 0;
       quantityBooksBuy = 0;
       totalPrice = 0;
@@ -242,8 +270,10 @@ function addCart(books) {
     let remove = document.querySelectorAll(".remove");
     // Rimuove singolo libro dal carrello degli acquisti e aggiorna il contenuto
     remove.forEach((elimina) => {
+      // Al click eseguo la funzione di rimozione del libro
       elimina.addEventListener("click", () => {
         books.forEach(libro => {
+          // Eseguo una verifica se il codice asin corrisponde al codice da eliminare
           if (libro.asin === elimina.id) {
             document.getElementById(`${libro.title}+${libro.asin}`).remove();
             // Trova l'indice dell'elemento da rimuovere
@@ -252,7 +282,9 @@ function addCart(books) {
               // Rimuovi l'elemento dall'array
               quantityBooks.splice(indexToRemove, 1);
             }
+            // La quantità dei libri viene diminuita
             quantityBooksBuy -= 1;
+            // Il prezzo totale viene diminuito del valore corrispondente al libro
             totalPrice -= libro.price;
             if (totalPrice > 0) {
               totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
@@ -294,12 +326,14 @@ function addCart(books) {
 /**
  * Funzione di ricerca libri
  * -------------------------
+ * La ricerca non andrà a visualizzare il risultato su una nuova pagina ma andrà a evidenziare di
+ * rosso la card ricercata nella stessa index.html e tramite anchor verrà evidenziata la sua posizione
  */
 function searchBook() {
-
+  // Richiamo la funzione ricerca del libro al click del pulsante di ricerca
   inputSearchBtn.addEventListener("click", () => {
+    // Verifico se il testo inserito nell'input di ricerca ha una lunghezza maggiore di 3 caratteri
     if (inputSearch.value.length > 3) {
-      // console.log("ok");
       let titoli = document.querySelectorAll(".card-title");
       titoli.forEach(titolo => {
         if (titolo.innerText.toLowerCase().includes(inputSearch.value.toLowerCase())) {
@@ -322,7 +356,7 @@ function searchBook() {
   * --------------------------
 */
 function resetDocument() {
-
+  // Al click del reset verrà ripulita la ricerca effettuata
   inputResetBtn.addEventListener("click", () => {
     let titoli = document.querySelectorAll(".card-title");
     titoli.forEach(titolo => {
