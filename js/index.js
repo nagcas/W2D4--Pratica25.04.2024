@@ -1,5 +1,5 @@
 /*
-  Javascript
+  Javascript index.js
   data 25.04.2024
   by Gianluca Chiaravalloti
   v.1.0
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     viewBooks(books);
     addCart(books);
     searchBook();
-    resetDocument(books);  
+    resetDocument();  
   })
   .catch((error) => {
     console.error("Errore: ", error);
@@ -107,18 +107,22 @@ function viewBooks(books) {
             <img src="${book.img}" class="card-img-top" alt="${book.title}">
             <div class="card-body">
               <h5 class="card-title">${book.title}</h5>
-              <p class="card-text fw-bold">${book.price} €</p>
+              <p class="card-text fw-bold fs-5">${book.price} €</p>
               <p class="card-text">category: ${book.category}</p>
               <p class="card-text mb-5">ISBN: ${book.asin}</p>
-              <button class="addBook btn position-absolute bottom-0 mb-2 start-50 translate-middle-x w-75 btn-success" id="${book.asin}">
+              
+              <button class="addBook btn mb-2 w-100 btn-success" id="${book.asin}">
                 <i class="bi bi-cart-plus"></i> 
                 Add to Cart
               </button>
+              <button class="detailBook btn mb-2 w-100 btn-primary">
+                Detail Book
+              </button>
             </div>
           </div>
-        `;
+        `
       contentBooks.appendChild(content);
-    });
+    })
 };
 
 
@@ -167,15 +171,15 @@ function addCart(books) {
             if (book_.asin === book) {
               bookSection.className = "card mt-4 card-cart";
               bookSection.innerHTML = `
-                  <div id="${book_.title}+${book_.asin}">
+                  <div class="border-line" id="${book_.title}+${book_.asin}">
                     <div class="row g-1 d-flex align-items-center">
                       <div class="col-4 col-md-4">
                         <img src="${book_.img}" class="img-fluid" alt="${book_.title}">
                       </div>
                       <div class="col-8 col-md-8">
                         <div class="card-body">
-                          <h5 class="card-title">${book_.title}</h5>
-                          <p class="card-text fw-bold">${book_.asin}</p>
+                          <h5 class="card-title card-shopping">${book_.title}</h5>
+                          <p class="card-text fw-bold">ISBN: ${book_.asin}</p>
                           <p class="card-text fw-bold">${book_.price} €</p>
                           <button class="btn btn-danger btn-sm remove" id="${book_.asin}"><i class="bi bi-cart-dash"></i> Remove</button>
                         </div>
@@ -186,11 +190,23 @@ function addCart(books) {
               modalCart.append(bookSection);
             }
           totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
+          if (totalPrice > 0) {
+            removeAllBooks.classList.remove("d-none");
+            removeAllBooks.classList.add("d-block");
+            buy.classList.remove("d-none");
+            buy.classList.add("d-block");
+          } 
         })
       })
     } else {
       // Visualizza il testo nel modal di articoli non presenti.
+      totalPrice = 0;
       modalCart.innerHTML = `<p id="empty">Empty cart...</p>`;
+      totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
+      removeAllBooks.classList.remove("d-block");
+      removeAllBooks.classList.add("d-none");
+      buy.classList.remove("d-block");
+      buy.classList.add("d-none");
     }
     
 
@@ -201,7 +217,7 @@ function addCart(books) {
       let content = document.querySelectorAll(".card-cart");
       content.forEach(card => {
         card.remove();
-      });
+      })
       amount.innerText = 0;
       quantityBooksBuy = 0;
       totalPrice = 0;
@@ -210,14 +226,17 @@ function addCart(books) {
         document.getElementById(`${book.asin}`).innerHTML = `<i class="bi bi-cart-plus"></i> Add to Cart`;
         document.getElementById(`${book.asin}`).classList.remove("btn-danger");
         document.getElementById(`${book.asin}`).classList.add("btn-success");
-      });
+      })
+      totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
+      removeAllBooks.classList.remove("d-block");
+      removeAllBooks.classList.add("d-none");
+      buy.classList.remove("d-block");
+      buy.classList.add("d-none");
     });
 
     // Inzizializzo la variabile remove to cart per rimuovere il singolo libro dal carrello
-
     let remove = document.querySelectorAll(".remove");
     // Rimuove singolo libro dal carrello degli acquisti e aggiorna il contenuto
-    console.log("Array prima: ", quantityBooks)
     remove.forEach((elimina) => {
       elimina.addEventListener("click", () => {
         books.forEach(libro => {
@@ -228,16 +247,23 @@ function addCart(books) {
             if (indexToRemove !== -1) {
               // Rimuovi l'elemento dall'array
               quantityBooks.splice(indexToRemove, 1);
-              console.log("Array dopo: ", quantityBooks)
-              
             }
             quantityBooksBuy -= 1;
             totalPrice -= libro.price;
-            if (totalPrice >= 0) {
+            if (totalPrice > 0) {
               totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
+              removeAllBooks.classList.remove("d-none");
+              removeAllBooks.classList.add("d-block");
+              buy.classList.remove("d-none");
+              buy.classList.add("d-block");
             } else {
-              totalPriceHtml.remove();
+              totalPrice = 0;
               modalCart.innerHTML = `<p id="empty">Empty cart...</p>`;
+              totalPriceHtml.innerHTML = `<span class="totalPrice">Total Price ${totalPrice.toFixed(2)} €</span>`;
+              removeAllBooks.classList.remove("d-block");
+              removeAllBooks.classList.add("d-none");
+              buy.classList.remove("d-block");
+              buy.classList.add("d-none");
             }
             document.getElementById(`${libro.asin}`).innerHTML = `<i class="bi bi-cart-plus"></i> Add to Cart`;
             document.getElementById(`${libro.asin}`).classList.remove("btn-danger");
@@ -255,7 +281,7 @@ function addCart(books) {
       let content = document.querySelectorAll(".card-cart");
       content.forEach(card => {
         card.remove();
-      });
+      })
     })
   })
 };
@@ -276,7 +302,6 @@ function searchBook() {
           inputSearch.classList.remove("border-danger");
           document.location.href = "#" + titolo.innerText;
           document.getElementById(`${titolo.innerText}`).style.color = "#c72121";
-          
         }
       })
     } else {
@@ -292,7 +317,7 @@ function searchBook() {
   * Funzione reset card search
   * --------------------------
 */
-function resetDocument(books) {
+function resetDocument() {
 
   inputResetBtn.addEventListener("click", () => {
     let titoli = document.querySelectorAll(".card-title");
@@ -300,5 +325,5 @@ function resetDocument(books) {
       document.getElementById(`${titolo.innerText}`).style.color = "#000";
     })
     document.getElementById("inputSearch").value = "";
-  });
+  })
 };

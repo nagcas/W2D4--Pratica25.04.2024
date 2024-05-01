@@ -37,64 +37,20 @@
               <a class="nav-link" href="#"><i class="bi bi-file-person"></i> About</a>
             </li>
           </ul>
-          <button type="button" class="btn btn-ternary position-relative" data-bs-toggle="modal" data-bs-target="#modalCart" id="shopping">
-            <i class="bi bi-cart2" id="cart"></i>
-            <span class="position-absolute start-80 translate-middle badge rounded-pill bg-danger z-1" id="amount"></span>
-          </button>
         </div>
       </div>
     </nav>
   </header>
   <!-- End Header -->
 
-  <!-- Section Hero -->
-  <section class="container hero">
-    <div class="row">
-      <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center justify-content-lg-start">
-        <div class="title ">
-          <h1>Best Selling <span>scifi</span> BOOKS</h1>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center justify-content-lg-end">
-        <div id="errore"></div>
-          <div class="input-group p-2">
-            <input type="text" name="search"
-            class="form-control focus-ring focus-ring-secondary py-1 px-1 text-decoration-none border text-center"
-            id="inputSearch" placeholder="search books">
-            <button class="btn btn-outline-secondary" type="submit" id="inputSearchBtn">
-              <i class="bi bi-search"></i>
-            </button>
-            <a class="btn btn-outline-secondary" id="inputResetBtn">CLEAR</a>
-          </div>
-      </div>
-    </div>
-  </section>
-  <!-- End Section Hero -->
-
+  
   <!-- Section Books -->
   <section class="container books">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 justify-content-around content-books"></div>
   </section>
   <!-- End Section Books -->
 
-  <!-- Section Modal Cart -->
-  <div class="modal fade" id="modalCart" tabindex="-1" aria-labelledby="modalCartLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="madalCartLabel">Shopping Cart</h1>
-        </div>
-        <div class="modal-body"></div>
-        <p class="totalPrice"></p>
-        <div class="modal-footer mt-2 d-flex justify-content-end align-items-center">
-          <button type="button" class="btn btn-secondary btn-sm btn-md" data-bs-dismiss="modal"><i class="bi bi-bag"></i> Continue Shopping</button>
-          <button type="button" class="btn btn-danger btn-sm btn-md d-none" data-bs-dismiss="modal" id="removeAllBooks"><i class="bi bi-cart-dash"></i> Remove all Books</button>
-          <button type="button" class="btn btn-success btn-sm btn-md d-none" data-bs-dismiss="modal" id="buy"><i class="bi bi-credit-card"></i> Buy</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End Section Modal Cart -->
+  
 
   <!-- Footer -->
   <footer class="container-fluid p-4 mt-5 border-top shadow">
@@ -142,7 +98,7 @@
     crossorigin="anonymous"></script>
 
   <!-- Javascript -->
-  <script src="./js/index.js"></script>
+  <script src="./js/detail.js"></script>
 </body>
 
 </html>
