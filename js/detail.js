@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="d-md-flex" id="${bookDetail.title}">
           <img src="${bookDetail.img}" class="card-img-top p-4" alt="${bookDetail.title}">
           <div class="card-body p-4">
-            <h5 class="card-title">${bookDetail.title}</h5>
+            <h1 class="">${bookDetail.title}</h1>
             <p class="card-text fw-bold fs-5">${bookDetail.price} €</p>
             <p class="card-text">category: ${bookDetail.category}</p>
             <p class="card-text mb-5">ISBN: ${bookDetail.asin}</p>

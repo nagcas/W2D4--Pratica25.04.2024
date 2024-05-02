@@ -31,6 +31,7 @@ const searchSectionBooks = document.querySelector(".searchSectionBooks");
 // Inizializzo la costante per richiamare lo spinner
 const loader = document.getElementById("loader");
 
+
 // ARIABILI GLOBALI
 
 // Inzializzo l'array vuoto della quantità dei libri acquistati
@@ -86,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Richiamo la funzione di ricerca di un libro in funzione del titolo
     searchBook();
     // Richiamo la funzione per resettare la ricerca 
-    resetDocument();  
+    resetDocument();
   })
   .catch((error) => {
     console.error("Errore: ", error);
@@ -125,6 +126,9 @@ function viewBooks(books) {
             <a class="detailBook btn mb-2 w-100 btn-primary" href="./detail.html?idBook=${book.asin}&titleBook=${book.title}">
               Detail Book
             </a>
+            <button class="skipBook btn mb-2 w-100 btn-warning">
+              Skip Book
+            </button>
           </div>
         </div>
       `
