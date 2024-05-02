@@ -32,6 +32,8 @@ const searchSectionBooks = document.querySelector(".searchSectionBooks");
 const loader = document.getElementById("loader");
 
 
+
+
 // ARIABILI GLOBALI
 
 // Inzializzo l'array vuoto della quantità dei libri acquistati
@@ -108,7 +110,7 @@ function viewBooks(books) {
   books.forEach(book => {
     // Inizializzo un div con classe card
     let content = document.createElement("div");
-    content.className = "card p-0 g-4 card-home";
+    content.className = `card p-0 g-4 card-home`;
     // Inserisco il contenuto del libro in una card
     content.innerHTML = `
         <a name="${book.title}"></a>
@@ -126,7 +128,7 @@ function viewBooks(books) {
             <a class="detailBook btn mb-2 w-100 btn-primary" href="./detail.html?idBook=${book.asin}&titleBook=${book.title}">
               Detail Book
             </a>
-            <button class="skipBook btn mb-2 w-100 btn-warning">
+            <button class="skipBook btn mb-2 w-100 btn-warning" id="${book.asin}">
               Skip Book
             </button>
           </div>
@@ -134,9 +136,23 @@ function viewBooks(books) {
       `
     // Aggiungo il contenuto della card del libro creata nel document html
     contentBooks.appendChild(content);
-  })
+
   // Aggiungo "hidden" allo spinner
   loader.classList.add("hidden");
+  })
+
+  // Al click del button skip "nascondi" dal document html il libro selezionato
+  let skipBook = document.querySelectorAll(".skipBook");
+  skipBook.forEach((skip) => {
+    skip.addEventListener("click", () => {
+      books.forEach(book => {
+        // Eseguo una verifica se il codice asin corrisponde al codice da eliminare
+        if (book.asin === skip.id) {
+          document.getElementById(`${book.title}`).parentElement.classList.add("hidden");
+        }
+      })
+    })
+  })
 };
 
 
